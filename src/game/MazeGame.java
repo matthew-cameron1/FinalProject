@@ -75,5 +75,5 @@ public abstract class MazeGame {
     }
 
     public abstract void display();
-    public abstract void start(MazeGame game);
+    public abstract void start();
 }
