@@ -15,6 +15,7 @@ public class ConsoleGame extends MazeGame {
     private String wallIndicator = "##";
     private String finishIndicator = "$$";
     private String startIndicator = "**";
+    private Scanner scanner;
 
     /*
         Player movement icons ^ > < v
@@ -86,7 +87,7 @@ public class ConsoleGame extends MazeGame {
         setCurrentLevel(current);
 
         System.out.println("Welcome to MazeGame Console Edition! Enter number of players to begin: ");
-        Scanner scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in);
 
         int players = scanner.nextInt();
 
@@ -97,29 +98,34 @@ public class ConsoleGame extends MazeGame {
             System.out.println("Okay player " + (i + 1) + " enter your user name:");
             String name = scanner.next();
 
-            Player player = new Player(name, ">", startX, startY);
+            Player player = new Player(name, "> ", startX, startY);
             addPlayer(player);
 
             System.out.println(player.getName() + " has been added to the game!");
         }
 
         setCurrentlyPlaying(getPlayers().get(0));
+        System.out.println(getCurrentlyPlaying().getName() + " Is starting!");
+        scanner.nextLine();
 
-        Player playing = getCurrentlyPlaying();
+        for (Player player : getPlayers()) {
+            gameLoop(player, current);
+        }
+    }
 
-        System.out.println(getCurrentLevel().tileAt(1, 1).getType().toString());
-
-
-        int playerSeconds = 120 * 1000;
+    public void gameLoop(Player playing, Level current) {
+        setCurrentlyPlaying(playing);
+        setCurrentLevel(current);
 
         display();
 
-
-        System.out.print("\nEnter your first move:");
-        scanner.nextLine();
+        System.out.println("\n" + playing.getName() + " it is your turn!");
+        System.out.println("\nEnter your first move:");
         String move = scanner.nextLine();
         String direction = move.split(" ")[0];
         int amount = Integer.parseInt(move.split(" ")[1]);
+
+        String finishingMessage = "Time is up!";
 
         while (!move.equals(" ") && !playing.isCompleted()) {
 
@@ -143,7 +149,8 @@ public class ConsoleGame extends MazeGame {
                 getCurrentlyPlaying().move(x, y);
                 display();
 
-                if (playing.getX() == current.getEnd().getX() && playing.getY() == current.getEnd().getY()) {
+                if (current.tileAt(playing.getX(), playing.getY()).getType() == TileType.END) {
+                    finishingMessage = "Congrats! You have made it through " + current.getName() + "!!!";
                     playing.setCompleted(true);
                 }
                 System.out.println("\nEnter next move: ");
@@ -154,6 +161,6 @@ public class ConsoleGame extends MazeGame {
             amount = Integer.parseInt(move.split(" ")[1]);
         }
 
-        System.out.println("UH OH we ran out of time");
+        System.out.println(finishingMessage);
     }
 }
