@@ -152,8 +152,9 @@ public class ConsoleGame extends MazeGame {
                 if (current.tileAt(playing.getX(), playing.getY()).getType() == TileType.END) {
                     finishingMessage = "Congrats! You have made it through " + current.getName() + "!!!";
                     playing.setCompleted(true);
+                } else {
+                    System.out.println("\nEnter next move: ");
                 }
-                System.out.println("\nEnter next move: ");
             }
 
             move = scanner.nextLine();
