@@ -132,13 +132,13 @@ public class ConsoleGame extends MazeGame {
             int x = 0;
             int y = 0;
 
-            if (direction.equalsIgnoreCase("right")) {
+            if (direction.equalsIgnoreCase("right") || direction.equalsIgnoreCase("r")) {
                 x = amount;
-            } else if (direction.equalsIgnoreCase("left")) {
+            } else if (direction.equalsIgnoreCase("left") || direction.equalsIgnoreCase("l")) {
                 x = -amount;
-            } else if (direction.equalsIgnoreCase("up")) {
+            } else if (direction.equalsIgnoreCase("up") || direction.equalsIgnoreCase("u")) {
                 y = -amount;
-            } else if (direction.equalsIgnoreCase("down")) {
+            } else if (direction.equalsIgnoreCase("down") || direction.equalsIgnoreCase("d")) {
                 y = amount;
             }
 

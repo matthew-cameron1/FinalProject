@@ -99,7 +99,12 @@ public abstract class MazeGame {
 
         Tile nextTile = currentLevel.tileAt(checkX, checkY);
 
-        return !conflict && nextTile.getType() != TileType.WALL;
+        if (nextTile == null) {
+            return false;
+        }
+        else {
+            return !conflict && nextTile.getType() != TileType.WALL;
+        }
     }
 
     public abstract void display();
