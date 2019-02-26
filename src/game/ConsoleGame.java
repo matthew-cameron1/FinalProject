@@ -119,7 +119,7 @@ public class ConsoleGame extends MazeGame {
 
         display();
 
-        System.out.println("\n" + playing.getName() + " it is your turn!");
+        System.out.println("\n" + playing.getName() + " it is your turn! To move, please type a direction followed by the amount of spaces.");
         System.out.println("\nEnter your first move:");
         String move = scanner.nextLine();
         String direction = move.split(" ")[0];
