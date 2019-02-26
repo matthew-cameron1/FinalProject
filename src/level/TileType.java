@@ -3,8 +3,8 @@ package level;
 public enum TileType {
 
     PLAYABLE(255,255,255),
-    START(0, 255, 0),
-    END(255, 0,0),
+    START(255, 0, 0),
+    END(0, 255,0),
     WALL(0,0,0);
 
     int red, green, blue;

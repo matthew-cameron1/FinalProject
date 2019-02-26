@@ -16,8 +16,22 @@ public class Player {
         this.completed = false;
     }
 
-    public void move(int x, int y) {
-
+    public void move(int distX, int distY) {
+        System.out.println("Called");
+        if (distX > 0) {
+            setBoardIcon("> ");
+        }
+        if (distX < 0) {
+            setBoardIcon(" <");
+        }
+        if (distY > 0) {
+            setBoardIcon("v ");
+        }
+        if (distY < 0) {
+            setBoardIcon("^ ");
+        }
+        setX(getX() + distX);
+        setY(getY() + distY);
     }
 
     public String getName() {

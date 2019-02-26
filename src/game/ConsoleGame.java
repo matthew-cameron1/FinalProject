@@ -16,6 +16,18 @@ public class ConsoleGame extends MazeGame {
     private String finishIndicator = "$$";
     private String startIndicator = "**";
 
+    /*
+        Player movement icons ^ > < v
+
+        Each player gets X amount of seconds to finish the level if they do not, they are removed from the game
+        next player then begins
+
+        Commands:
+
+        <direction> <amount>
+
+     */
+
     public String getWallIndicator() {
         return wallIndicator;
     }
@@ -40,15 +52,18 @@ public class ConsoleGame extends MazeGame {
 
             if (type == TileType.END) {
                 toPrint = getFinishIndicator();
-            }
-            else if (type == TileType.START) {
+            } else if (type == TileType.START) {
                 toPrint = getStartIndicator();
-            }
-            else if (type == TileType.WALL) {
+            } else if (type == TileType.WALL) {
                 toPrint = getWallIndicator();
-            }
-            else {
+            } else {
                 toPrint = "  ";
+            }
+
+            if (getCurrentlyPlaying() != null) {
+                if (getCurrentlyPlaying().getX() == tile.getX() && getCurrentlyPlaying().getY() == tile.getY()) {
+                    toPrint = getCurrentlyPlaying().getBoardIcon();
+                }
             }
 
             if (y > lastY) {
@@ -58,7 +73,6 @@ public class ConsoleGame extends MazeGame {
 
             System.out.print(toPrint);
         }
-
     }
 
     @Override
@@ -67,7 +81,9 @@ public class ConsoleGame extends MazeGame {
         List<Level> levelsLoaded = loader.load();
 
         addAll(levelsLoaded);
-        setCurrentLevel(levelsLoaded.get(0));
+        Level current = levelsLoaded.get(0);
+
+        setCurrentLevel(current);
 
         System.out.println("Welcome to MazeGame Console Edition! Enter number of players to begin: ");
         Scanner scanner = new Scanner(System.in);
@@ -81,12 +97,63 @@ public class ConsoleGame extends MazeGame {
             System.out.println("Okay player " + (i + 1) + " enter your user name:");
             String name = scanner.next();
 
-            Player player = new Player(name, String.valueOf(i + 1), startX, startY);
+            Player player = new Player(name, ">", startX, startY);
             addPlayer(player);
 
             System.out.println(player.getName() + " has been added to the game!");
         }
 
+        setCurrentlyPlaying(getPlayers().get(0));
+
+        Player playing = getCurrentlyPlaying();
+
+        System.out.println(getCurrentLevel().tileAt(1, 1).getType().toString());
+
+
+        int playerSeconds = 120 * 1000;
+
         display();
+
+
+        System.out.print("\nEnter your first move:");
+        scanner.nextLine();
+        String move = scanner.nextLine();
+        String direction = move.split(" ")[0];
+        int amount = Integer.parseInt(move.split(" ")[1]);
+
+        while (!move.equals(" ") && !playing.isCompleted()) {
+
+            int x = 0;
+            int y = 0;
+
+            if (direction.equalsIgnoreCase("right")) {
+                x = amount;
+            } else if (direction.equalsIgnoreCase("left")) {
+                x = -amount;
+            } else if (direction.equalsIgnoreCase("up")) {
+                y = -amount;
+            } else if (direction.equalsIgnoreCase("down")) {
+                y = amount;
+            }
+
+            if (!playerCanMove(playing, x, y)) {
+                System.out.println("There seems to be a wall " + amount + " spaces " + direction);
+                System.out.println("Try again: ");
+            } else {
+                getCurrentlyPlaying().move(x, y);
+                display();
+
+                if (playing.getX() == current.getEnd().getX() && playing.getY() == current.getEnd().getY()) {
+                    playing.setCompleted(true);
+                }
+                System.out.println("\nEnter next move: ");
+            }
+
+            move = scanner.nextLine();
+            direction = move.split(" ")[0];
+            amount = Integer.parseInt(move.split(" ")[1]);
+        }
+
+        System.out.println("UH OH we ran out of time");
     }
 }
