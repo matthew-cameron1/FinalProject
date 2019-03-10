@@ -1,6 +1,7 @@
 package game;
 
 
+import entity.Player;
 import level.Level;
 import level.LevelLoader;
 import level.Tile;
@@ -101,11 +102,11 @@ public class ConsoleGame extends MazeGame {
             Player player = new Player(name, "> ", startX, startY);
             addPlayer(player);
 
-            System.out.println(player.getName() + " has been added to the game!");
+            System.out.println(player.getId() + " has been added to the game!");
         }
 
         setCurrentlyPlaying(getPlayers().get(0));
-        System.out.println(getCurrentlyPlaying().getName() + " Is starting!");
+        System.out.println(getCurrentlyPlaying().getId() + " Is starting!");
         scanner.nextLine();
 
         for (Player player : getPlayers()) {
@@ -119,7 +120,7 @@ public class ConsoleGame extends MazeGame {
 
         display();
 
-        System.out.println("\n" + playing.getName() + " it is your turn! To move, please type a direction followed by the amount of spaces.");
+        System.out.println("\n" + playing.getId() + " it is your turn! To move, please type a direction followed by the amount of spaces.");
         System.out.println("\nEnter your first move:");
         String move = scanner.nextLine();
         String direction = move.split(" ")[0];

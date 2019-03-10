@@ -1,5 +1,6 @@
 package game;
 
+import entity.Player;
 import level.Level;
 import level.Tile;
 import level.TileType;

@@ -1,23 +1,19 @@
-package game;
+package entity;
 
-public class Player {
+public class Player extends Entity {
 
-    private String name;
     private String boardIcon;
-    private int x, y;
 
     private boolean completed;
 
     public Player(String name, String boardIcon, int x, int y) {
-        this.name = name;
+        super(name, x, y);
         this.boardIcon = boardIcon;
-        this.x = x;
-        this.y = y;
         this.completed = false;
     }
 
+    @Override
     public void move(int distX, int distY) {
-        System.out.println("Called");
         if (distX > 0) {
             setBoardIcon("> ");
         }
@@ -30,16 +26,6 @@ public class Player {
         if (distY < 0) {
             setBoardIcon("^ ");
         }
-        setX(getX() + distX);
-        setY(getY() + distY);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getBoardIcon() {
@@ -48,22 +34,6 @@ public class Player {
 
     public void setBoardIcon(String boardIcon) {
         this.boardIcon = boardIcon;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public boolean isCompleted() {
