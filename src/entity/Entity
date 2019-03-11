@@ -1,0 +1,86 @@
+public class Entity{
+	/**
+	*Instance variables 
+	*/
+	private String id;
+    private int xCoord, yCoord;
+
+	/**
+	*Constructor for Entity with all parameters set
+	*@param aId, aX, aY
+	*/
+    public Entity(String aId, int aX, int aY) {
+        this.id = aId;
+        this.xCoord = aX;
+        this.yCoord = aY;
+    }
+	
+	/**
+	*Constructor for Entity with xCoord and YCoord set and default id
+	*@param aX, aY
+	*/
+    public Entity(int aX, int aY) {
+        this.id = "noname";
+        this.xCoord = aX;
+        this.yCoord = aY;
+    }
+
+	
+	/**
+	*move function changes the x and y coordinates accordingly 
+	*@param distX, distY
+	*/
+    public void move(int distX, int distY) {
+        this.XCoord += distX;
+        this.YCoord += distY;
+    }
+
+	/**
+	*id Getter
+	*/
+    public String getId() {
+        return this.id;
+    }
+
+	/**
+	*set id to input
+	*@param aID
+	*/
+    public void setId(String aId) {
+        this.id = aId;
+    }
+
+	/**
+	*xCoord Getter
+	*/
+    public int getXCoord() {
+        return this.xCoord;
+    }
+
+	
+	/**
+	*set xCoord to input
+	*@param aX
+	*/
+    public void setXCoord(int aX) {
+        this.xCoord = aX;
+    }
+
+	/**
+	*yCoord Getter
+	*/
+    public int getYCoord() {
+        return this.yCoord;
+    }
+
+	/**
+	*set yCoord to input
+	*@param aY
+	*/
+    public void setYCoord(int aY) {
+        this.yCoord = aY;
+    }
+	
+	
+	
+}
