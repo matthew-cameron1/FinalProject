@@ -49,6 +49,7 @@ public class LevelLoader {
 
                     if (tile.getType() == TileType.START) {
                         level.setStart(tile);
+                        System.out.println(tile.getX() + " " + tile.getY());
                     }
                     else if (tile.getType() == TileType.END) {
                         level.setEnd(tile);

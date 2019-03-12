@@ -70,7 +70,6 @@ public abstract class MazeGame {
         }
         else if (distX < 0) {
             //LEFT
-            System.out.println("Left");
             checkX = x + distX;
         }
 
@@ -110,4 +109,5 @@ public abstract class MazeGame {
 
     public abstract void display();
     public abstract void start();
+    public abstract void setup();
 }

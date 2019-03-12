@@ -114,6 +114,11 @@ public class ConsoleGame extends MazeGame {
         }
     }
 
+    @Override
+    public void setup() {
+
+    }
+
     public void gameLoop(Player playing, Level current) {
         setCurrentlyPlaying(playing);
         setCurrentLevel(current);
