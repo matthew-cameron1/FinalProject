@@ -10,9 +10,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class MazeApplication extends Application {
@@ -23,7 +27,7 @@ public class MazeApplication extends Application {
     private static Group group = new Group();
     private static MazeGame game = new GUIGame(group);
 
-
+   
     private static MazeGame getGame() {
         return game;
     }
@@ -49,41 +53,59 @@ public class MazeApplication extends Application {
 
 
     public void start(Stage primaryStage) {
+   	 System.out.println("Setting up Application");
 
-        System.out.println("Setting up Application");
+     primaryStage.setTitle("TEAM 5_Maze Game");
 
-        primaryStage.setTitle("Maze Game");
+     StackPane vb = new StackPane();
+     vb.setAlignment(Pos.CENTER);
+     Image background = new Image ( "Title Screen.png");
+     ImageView bg = new ImageView(background);
+     
+     bg.setFitHeight(600);
+     bg.setFitWidth(550);
+     vb.getChildren().add(bg);
 
-        VBox vb = new VBox();
-        vb.setAlignment(Pos.TOP_CENTER);
-
-        Label holder = new Label("Maze game");
-        playerName = new Label("Enter player to start");
-        vb.getChildren().add(holder);
-        vb.getChildren().add(playerName);
+     playerName = new Label("Enter player to start");
+     vb.getChildren().add(playerName);
 
 
-        VBox vb2 = new VBox();
-        vb2.setAlignment(Pos.BOTTOM_CENTER);
+     VBox vb2 = new VBox();
+     vb2.setAlignment(Pos.BOTTOM_CENTER);
 
-        HBox box = new HBox();
-        box.setAlignment(Pos.CENTER_LEFT);
-        box.setPadding(new Insets(20));
+     VBox box = new VBox();
+     box.setAlignment(Pos.CENTER);
+     box.setPadding(new Insets(20));
+     Label enterPlayer = new Label("Enter Player: ");
+     enterPlayer.setTextFill(Color.web("#FFFFFF"));
 
-        box.getChildren().add(new Label("Enter player: "));
+     box.getChildren().add(enterPlayer);
 
-        field = new TextField();
-        field.setMaxWidth(100.0);
-        field.setMinWidth(50.0);
-        box.getChildren().add(field);
+     field = new TextField();
+     field.setMaxWidth(100.0);
+     field.setMinWidth(50.0);
+     box.getChildren().add(field);
 
-        vb.getChildren().add(box);
+     vb.getChildren().add(box);
+     
+     StackPane menu = new StackPane();
+     
+     
 
-        HBox buttons = new HBox();
-        buttons.setAlignment(Pos.CENTER);
+     HBox buttons = new HBox();
+     buttons.setAlignment(Pos.BOTTOM_CENTER);
 
-        Button player = new Button("Add Player");
-        Button start = new Button("Start Game");
+     Button player = new Button("");
+     Button start = new Button("");
+     player.setStyle("-fx-background-color: #0A0A79");
+     start.setStyle("-fx-background-color: #0A0A79");
+     Image addPlayerBtn = new Image ("AddPlayer-1.png.png");
+     ImageView apBtn = new ImageView(addPlayerBtn);
+     player.setGraphic(apBtn);
+     Image startBtn = new Image ("Start Game.png");
+     ImageView sgBtn = new ImageView(startBtn);
+     start.setGraphic(sgBtn);
+
         player.setOnAction(event -> {
             String playerName = field.getText();
 
@@ -106,7 +128,7 @@ public class MazeApplication extends Application {
 
         box.getChildren().add(buttons);
 
-        primaryStage.setScene(new Scene(vb, 350, 150));
+        primaryStage.setScene(new Scene(vb, 550, 600));
         primaryStage.show();
     }
 
