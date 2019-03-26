@@ -115,6 +115,11 @@ public class ConsoleGame extends MazeGame {
     }
 
     @Override
+    public void playerFinished(Player player) {
+        System.out.println("Player completed the level!");
+    }
+
+    @Override
     public void setup() {
 
     }
@@ -122,6 +127,7 @@ public class ConsoleGame extends MazeGame {
     public void gameLoop(Player playing, Level current) {
         setCurrentlyPlaying(playing);
         setCurrentLevel(current);
+
 
         display();
 

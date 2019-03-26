@@ -1,7 +1,8 @@
 package entity;
 
-import javafx.animation.AnimationTimer;
-import java.util.ArrayList;
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Player extends Entity {
 
@@ -9,11 +10,11 @@ public class Player extends Entity {
 
     private boolean completed;
     
-    private AnimationTimer timer = new AnimationTimer(); 
+    private PlayerTimer timer = new PlayerTimer();
     
     private double recentTime;
-    
-	private ArrayList<double> playerScores = new ArrayList<double>();
+
+    private Map<String, Double> playerScores = new HashMap<>();
 
     public Player(String name, String boardIcon, int x, int y) {
         super(name, x, y);
@@ -34,13 +35,17 @@ public class Player extends Entity {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+        timer.stop();
+        DecimalFormat df2 = new DecimalFormat(".##");
+        addScore("Main level",  Double.valueOf(df2.format(timer.getTime() / 60.0)));
+        this.setRecentTime( Double.valueOf(df2.format(timer.getTime() / 60.0)));
     }
     
-    public AnimationTimer getTimer(){
+    public PlayerTimer getTimer() {
         return timer;
     }
     
-    public void setTimer(AnimationTimer timer){
+    public void setTimer(PlayerTimer timer){
         this.timer = timer;
     }
     
@@ -52,26 +57,29 @@ public class Player extends Entity {
         this.recentTime = recentTime;
     }
     
-    public ArrayList<double> getPlayerScores(){
+    public Map<String, Double> getPlayerScores() {
         return playerScores;
     }
     
-    public void addScore(double recentTime){
-        this.playerScores.add(recentTime);
+    public void addScore(String levelName, double recentTime) {
+        this.playerScores.put(levelName, recentTime);
     }
     
-    public double getTopScore(){
-		double highest = 0;
-		for(double recentTime : playerScores){
-			if (highest == 0){
-				highest = recentTime;			
-			} else if (recentTime>highest){
-				highest = recentTime;			
-			}			
-		}
-		return highest;	
-	}
-    
-    
+    public String getBestLevel() {
+        double best = 1000000.0;
+        String levelName = "";
+
+        for (Map.Entry<String, Double> entry : playerScores.entrySet()) {
+            if (entry.getValue() < best) {
+                best = entry.getValue();
+                levelName = entry.getKey();
+            }
+        }
+        return levelName;
+    }
+
+    public double getTimeForLevel(String level) {
+        return playerScores.get(level);
+    }
 }
 

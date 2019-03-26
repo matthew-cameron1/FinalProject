@@ -1,7 +1,6 @@
 import entity.Player;
 import game.GUIGame;
 import game.MazeGame;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -23,9 +21,8 @@ public class MazeApplication extends Application {
 
     private TextField field;
     private Label playerName;
-    private AnimationTimer gameLoop;
     private static Group group = new Group();
-    private static MazeGame game = new GUIGame(group);
+    private static GUIGame game = new GUIGame(group);
 
    
     private static MazeGame getGame() {
@@ -39,7 +36,7 @@ public class MazeApplication extends Application {
         launch(args);
     }
 
-    public void setGame(MazeGame game) {
+    public void setGame(GUIGame game) {
         this.game = game;
     }
 
@@ -59,7 +56,7 @@ public class MazeApplication extends Application {
 
      StackPane vb = new StackPane();
      vb.setAlignment(Pos.CENTER);
-     Image background = new Image ( "Title Screen.png");
+     Image background = new Image ( "Buttons and TitleScreen/Title Screen.png");
      ImageView bg = new ImageView(background);
      
      bg.setFitHeight(600);
@@ -89,8 +86,6 @@ public class MazeApplication extends Application {
      vb.getChildren().add(box);
      
      StackPane menu = new StackPane();
-     
-     
 
      HBox buttons = new HBox();
      buttons.setAlignment(Pos.BOTTOM_CENTER);
@@ -99,10 +94,10 @@ public class MazeApplication extends Application {
      Button start = new Button("");
      player.setStyle("-fx-background-color: #0A0A79");
      start.setStyle("-fx-background-color: #0A0A79");
-     Image addPlayerBtn = new Image ("AddPlayer-1.png.png");
+     Image addPlayerBtn = new Image ("Buttons and TitleScreen/AddPlayer-1.png.png");
      ImageView apBtn = new ImageView(addPlayerBtn);
      player.setGraphic(apBtn);
-     Image startBtn = new Image ("Start Game.png");
+     Image startBtn = new Image ("Buttons and TitleScreen/Start Game.png");
      ImageView sgBtn = new ImageView(startBtn);
      start.setGraphic(sgBtn);
 
@@ -114,6 +109,7 @@ public class MazeApplication extends Application {
                 return;
             }
 
+            field.setText("");
             game.addPlayer(new Player(playerName, "", game.getCurrentLevel().getStart().getX(), game.getCurrentLevel().getStart().getY()));
         });
 
@@ -121,7 +117,7 @@ public class MazeApplication extends Application {
             if (game.getPlayers().size() == 0)
                 return;
 
-            toGame(primaryStage);
+            game.toGame(primaryStage);
         });
 
         buttons.getChildren().addAll(player, start);
@@ -130,50 +126,5 @@ public class MazeApplication extends Application {
 
         primaryStage.setScene(new Scene(vb, 550, 600));
         primaryStage.show();
-    }
-
-    public void toGame(Stage primaryStage) {
-        GameScene gameScene = new GameScene(group, 512, 512, (GUIGame) game);
-
-        gameScene.displayLevelTest();
-        primaryStage.setScene(gameScene);
-        primaryStage.show();
-        game.start();
-        Player currentlyPlaying = game.getCurrentlyPlaying();
-
-        gameScene.setOnKeyPressed(event -> {
-            KeyCode code = event.getCode();
-
-            switch (code) {
-                case W:
-                    if (!game.playerCanMove(currentlyPlaying, 0 ,-1))
-                        return;
-                    currentlyPlaying.move(0, -1);
-                    break;
-                case S:
-                    if (!game.playerCanMove(currentlyPlaying, 0 ,1))
-                        return;
-                    currentlyPlaying.move(0, 1);
-                    break;
-                case D:
-                    if (!game.playerCanMove(currentlyPlaying, 1 ,0))
-                        return;
-                    currentlyPlaying.move(1, 0);
-                    break;
-                case A:
-                    if (!game.playerCanMove(currentlyPlaying, -1 ,0))
-                        return;
-                    currentlyPlaying.move(-1, 0);
-                    break;
-            }
-        });
-
-        gameLoop = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                game.display();
-            }
-        };
-        gameLoop.start();
     }
 }

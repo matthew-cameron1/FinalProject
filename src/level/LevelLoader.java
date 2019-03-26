@@ -52,6 +52,8 @@ public class LevelLoader {
                         System.out.println(tile.getX() + " " + tile.getY());
                     }
                     else if (tile.getType() == TileType.END) {
+                        System.out.println("Setting tile");
+                        System.out.println(tile.getX() + " " + tile.getY());
                         level.setEnd(tile);
                     }
                 }

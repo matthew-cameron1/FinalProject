@@ -62,13 +62,10 @@ public abstract class MazeGame {
         int checkX = player.getX();
         int checkY = player.getY();
 
-
-
         if (distX > 0) {
             //RIGHT
             checkX = x + distX;
-        }
-        else if (distX < 0) {
+        } else if (distX < 0) {
             //LEFT
             checkX = x + distX;
         }
@@ -76,8 +73,7 @@ public abstract class MazeGame {
         if (distY > 0) {
             //DOWN
             checkY = y + distY;
-        }
-        else if (distY < 0) {
+        } else if (distY < 0) {
             //UP
             checkY = y + distY;
         }
@@ -99,15 +95,25 @@ public abstract class MazeGame {
 
         Tile nextTile = currentLevel.tileAt(checkX, checkY);
 
+        if (nextTile != null) {
+            if (nextTile.getType() == TileType.END) {
+                player.setCompleted(true);
+                playerFinished(player);
+            }
+        }
+
         if (nextTile == null) {
             return false;
-        }
-        else {
+        } else {
             return !conflict && nextTile.getType() != TileType.WALL;
         }
     }
 
+    public abstract void playerFinished(Player player);
+
     public abstract void display();
+
     public abstract void start();
+
     public abstract void setup();
 }
