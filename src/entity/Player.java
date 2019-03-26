@@ -4,8 +4,14 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+*Player class to keep track of individual scores, time, and sprites
+*/
 public class Player extends Entity {
 
+    /**
+    *Private instance variables for Player: Storing individual times and Score-related data
+    */
     private String boardIcon;
 
     private boolean completed;
@@ -16,11 +22,18 @@ public class Player extends Entity {
 
     private Map<String, Double> playerScores = new HashMap<>();
 
+    /**
+    *Constructor with initial conditions and identification of player
+    *@param name: String, boardIcon: String, x: int, y: int
+    */
     public Player(String name, String boardIcon, int x, int y) {
         super(name, x, y);
         this.boardIcon = boardIcon;
         this.completed = false;
     }
+    
+    //getters and setters
+    
     public String getBoardIcon() {
         return boardIcon;
     }
@@ -65,6 +78,9 @@ public class Player extends Entity {
         this.playerScores.put(levelName, recentTime);
     }
     
+    /**
+    *Returns the level in which the player performed best
+    */
     public String getBestLevel() {
         double best = 1000000.0;
         String levelName = "";
@@ -77,7 +93,9 @@ public class Player extends Entity {
         }
         return levelName;
     }
-
+    /**
+    *Gets the time for the specefic level
+    */
     public double getTimeForLevel(String level) {
         return playerScores.get(level);
     }
