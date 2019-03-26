@@ -79,7 +79,7 @@ public class ConsoleGame extends MazeGame {
 
     @Override
     public void start() {
-        LevelLoader loader = new LevelLoader(new File("level1.png"));
+        LevelLoader loader = new LevelLoader(new File("levels/level1.png"));
         List<Level> levelsLoaded = loader.load();
 
         addAll(levelsLoaded);

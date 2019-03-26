@@ -20,6 +20,8 @@ public class LevelLoader {
 
         List<Level> levels = new ArrayList<>();
 
+
+
         if (file.isDirectory() && file.listFiles() != null) {
 
             for (File levelFile : file.listFiles()) {
@@ -36,8 +38,7 @@ public class LevelLoader {
         Level level = new Level(file.getName().replace(".png", ""));
 
         try {
-
-            BufferedImage image = ImageIO.read(this.getClass().getClassLoader().getResource(file.getName()));
+            BufferedImage image = ImageIO.read(this.getClass().getClassLoader().getResource("levels/" + file.getName()));
 
             for (int y = 0; y < image.getHeight(); y++) {
                 for (int x = 0; x < image.getWidth(); x++) {
@@ -49,11 +50,8 @@ public class LevelLoader {
 
                     if (tile.getType() == TileType.START) {
                         level.setStart(tile);
-                        System.out.println(tile.getX() + " " + tile.getY());
                     }
                     else if (tile.getType() == TileType.END) {
-                        System.out.println("Setting tile");
-                        System.out.println(tile.getX() + " " + tile.getY());
                         level.setEnd(tile);
                     }
                 }

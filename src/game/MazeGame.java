@@ -55,6 +55,29 @@ public abstract class MazeGame {
         return currentlyPlaying;
     }
 
+    public boolean newPlayerMove(Player player, int distX, int distY) {
+        int x = player.getX();
+        int y = player.getY();
+
+        int futureX = x + (distX * 16);
+        int futureY = y + (distY * 16);
+
+        Tile next = currentLevel.tileAt(futureX, futureY);
+
+        if (next != null) {
+            if (next.getType() == TileType.END) {
+                player.setCompleted(true);
+                playerFinished(player);
+            }
+        }
+
+        if (next == null) {
+            return false;
+        }
+
+        return next.getType() != TileType.WALL;
+    }
+
     public boolean playerCanMove(Player player, int distX, int distY) {
         int x = player.getX();
         int y = player.getY();

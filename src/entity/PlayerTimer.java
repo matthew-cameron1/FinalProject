@@ -11,6 +11,12 @@ public class PlayerTimer extends AnimationTimer {
     }
 
     @Override
+    public void start() {
+        super.start();
+        time = 0;
+    }
+
+    @Override
     public void handle(long now) {
         time++;
     }

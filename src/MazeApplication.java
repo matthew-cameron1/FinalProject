@@ -36,19 +36,6 @@ public class MazeApplication extends Application {
         launch(args);
     }
 
-    public void setGame(GUIGame game) {
-        this.game = game;
-    }
-
-    public Label getPlayerName() {
-        return playerName;
-    }
-
-    public TextField getField() {
-        return this.field;
-    }
-
-
     public void start(Stage primaryStage) {
    	 System.out.println("Setting up Application");
 

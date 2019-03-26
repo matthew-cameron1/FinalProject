@@ -7,10 +7,10 @@ import java.util.Map;
 public class Player extends Entity {
 
     private String boardIcon;
-
     private boolean completed;
     
     private PlayerTimer timer = new PlayerTimer();
+    private int levelCount = 1;
     
     private double recentTime;
 
@@ -37,8 +37,9 @@ public class Player extends Entity {
         this.completed = completed;
         timer.stop();
         DecimalFormat df2 = new DecimalFormat(".##");
-        addScore("Main level",  Double.valueOf(df2.format(timer.getTime() / 60.0)));
+        addScore("level" + levelCount,  Double.valueOf(df2.format(timer.getTime() / 60.0)));
         this.setRecentTime( Double.valueOf(df2.format(timer.getTime() / 60.0)));
+        levelCount++;
     }
     
     public PlayerTimer getTimer() {
@@ -64,6 +65,16 @@ public class Player extends Entity {
     public void addScore(String levelName, double recentTime) {
         this.playerScores.put(levelName, recentTime);
     }
+
+    public Double getFinalScore() {
+        double sum = 0.0;
+        for (double d : playerScores.values()) {
+            sum+=d;
+        }
+
+        DecimalFormat df2 = new DecimalFormat(".##");
+        return Double.valueOf(df2.format(sum));
+    }
     
     public String getBestLevel() {
         double best = 1000000.0;
@@ -76,6 +87,12 @@ public class Player extends Entity {
             }
         }
         return levelName;
+    }
+
+    @Override
+    public void move(int distX, int distY) {
+        setX(getX() + (distX*16));
+        setY(getY() + (distY*16));
     }
 
     public double getTimeForLevel(String level) {
