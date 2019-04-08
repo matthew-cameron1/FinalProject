@@ -1,6 +1,5 @@
 package game;
 
-
 import entity.Player;
 import level.Level;
 import level.LevelLoader;
@@ -79,7 +78,9 @@ public class ConsoleGame extends MazeGame {
 
     @Override
     public void start() {
-        LevelLoader loader = new LevelLoader(new File("levels/level1.png"));
+        File levelDir = new File("FinalProject/resources/levels/level1.png");
+        System.out.println(levelDir.getAbsolutePath());
+        LevelLoader loader = new LevelLoader(levelDir);
         List<Level> levelsLoaded = loader.load();
 
         addAll(levelsLoaded);

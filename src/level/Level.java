@@ -51,7 +51,7 @@ public class Level {
         Tile match = null;
         for (Tile tile : tiles) {
 
-            if (tile.getX()*16 == x && tile.getY()*16 == y) {
+            if (tile.getX() == x && tile.getY() == y) {
                 match = tile;
             }
         }

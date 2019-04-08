@@ -19,8 +19,6 @@ import level.Level;
 import level.LevelLoader;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 public class GUIGame extends MazeGame {
     
@@ -37,8 +35,8 @@ public class GUIGame extends MazeGame {
 
     private GameScene scene;
 
-    public GUIGame(Group group) {
-        this.group = group;
+    public GUIGame() {
+        this.group = new Group();
         this.scene = new GameScene(group, 512, 512, this);
     }
 
@@ -57,7 +55,7 @@ public class GUIGame extends MazeGame {
 
         if (isSwitchScreen) {
             gameLoop.stop();
-            Image background = new Image("Buttons and TitleScreen/Title Screen.png");
+            Image background = new Image(getClass().getResourceAsStream("/resources/Buttons and TitleScreen/Title Screen.png"));
             ImageView bg = new ImageView(background);
             bg.setFitHeight(600);
             bg.setFitWidth(550);
@@ -131,20 +129,6 @@ public class GUIGame extends MazeGame {
                         }
                     }
                 }
-
-                /*if (node instanceof Rectangle) {
-                    Rectangle rectangle = (Rectangle) node;
-                    if (rectangle.getFill() != Color.BLUE) {
-                        continue;
-                    }
-
-                    if (rectangle.getTranslateX() != (player.getX())) {
-                        rectangle.setTranslateX(player.getX());
-                    }
-                    if (rectangle.getTranslateY() != (player.getY())) {
-                        rectangle.setTranslateY(player.getY());
-                    }
-                }*/
             }
         }
     }
@@ -167,22 +151,22 @@ public class GUIGame extends MazeGame {
                 case W:
                     if (!newPlayerMove(currentlyPlaying, 0, -1))
                         return;
-                    currentlyPlaying.move(0, -1);
+                    currentlyPlaying.move(0, -1*16);
                     break;
                 case S:
                     if (!newPlayerMove(currentlyPlaying, 0, 1))
                         return;
-                    currentlyPlaying.move(0, 1);
+                    currentlyPlaying.move(0, 1*16);
                     break;
                 case D:
                     if (!newPlayerMove(currentlyPlaying, 1, 0))
                         return;
-                    currentlyPlaying.move(1, 0);
+                    currentlyPlaying.move(1*16, 0);
                     break;
                 case A:
                     if (!newPlayerMove(currentlyPlaying, -1, 0))
                         return;
-                    currentlyPlaying.move(-1, 0);
+                    currentlyPlaying.move(-1 * 16, 0);
                     break;
             }
         });
@@ -240,13 +224,10 @@ public class GUIGame extends MazeGame {
             setCurrentlyPlaying(getPlayers().get(0));
         }
         Player player = getCurrentlyPlaying();
-        System.out.println(getCurrentLevel().getStart().getX());
-        System.out.println(getCurrentLevel().getStart().getY());
+
         player.setX(getCurrentLevel().getStart().getX() * aspectRatio);
         player.setY(getCurrentLevel().getStart().getY() * aspectRatio);
 
-        System.out.println("P:" + player.getX());
-        System.out.println("P:" + player.getY());
 
         /*Rectangle rect = new Rectangle(0, 0, aspectRatio, aspectRatio);
         rect.setTranslateX(player.getX());
@@ -254,7 +235,7 @@ public class GUIGame extends MazeGame {
         rect.setFill(Color.BLUE);
         group.getChildren().add(rect);*/
 
-        Image img = new Image("P1-Right.png");
+        Image img = new Image(getClass().getResourceAsStream("/resources/sprites/P1-Right.png"));
         ImageView view = new ImageView(img);
         view.setTranslateX(player.getX());
         view.setTranslateY(player.getY());
@@ -276,13 +257,8 @@ public class GUIGame extends MazeGame {
 
     @Override
     public void setup() {
-        URL url = getClass().getClassLoader().getResource("resources/levels");
         LevelLoader loader = null;
-        try {
-            loader = new LevelLoader(new File(url.toURI()));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        loader = new LevelLoader(new File("FinalProject/src/resources/levels"));
         addAll(loader.load());
 
         Level first = getAvailableLevels().get(0);

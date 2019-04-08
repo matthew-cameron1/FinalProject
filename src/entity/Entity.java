@@ -1,5 +1,4 @@
 package entity;
-
 /**
 *Entity class to organize different entities within the GUI game
 */

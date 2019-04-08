@@ -10,16 +10,15 @@ import level.Level;
 import level.Tile;
 import level.TileType;
 
-
 public class GameScene extends Scene {
 
-    public GUIGame game;
+    public MazeGame game;
     private Group group;
 
-    public GameScene(Group root, int width, int height, GUIGame game) {
+    public GameScene(Group root, int width, int height, MazeGame game) {
         super(root, width, height);
-        this.group = root;
         this.game = game;
+        this.group = root;
     }
 
     public void displayLevelTest() {

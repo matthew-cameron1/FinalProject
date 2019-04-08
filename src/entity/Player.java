@@ -1,5 +1,4 @@
 package entity;
-
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -91,8 +90,8 @@ public class Player extends Entity {
 
     @Override
     public void move(int distX, int distY) {
-        setX(getX() + (distX*16));
-        setY(getY() + (distY*16));
+        setX(getX() + (distX));
+        setY(getY() + (distY));
     }
 
     public double getTimeForLevel(String level) {

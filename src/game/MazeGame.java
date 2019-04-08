@@ -62,7 +62,7 @@ public abstract class MazeGame {
         int futureX = x + (distX * 16);
         int futureY = y + (distY * 16);
 
-        Tile next = currentLevel.tileAt(futureX, futureY);
+        Tile next = currentLevel.tileAt(futureX / 16, futureY / 16);
 
         if (next != null) {
             if (next.getType() == TileType.END) {
@@ -82,54 +82,65 @@ public abstract class MazeGame {
         int x = player.getX();
         int y = player.getY();
 
-        int checkX = player.getX();
-        int checkY = player.getY();
+        System.out.println("Player coords: (" + x + ", " + y + ")");
+
+        int newX = 0;
+        int newY = 0;
+
+        boolean canMove = true;
 
         if (distX > 0) {
-            //RIGHT
-            checkX = x + distX;
-        } else if (distX < 0) {
-            //LEFT
-            checkX = x + distX;
+            newX = x + distX;
+        }
+
+        if (distX < 0) {
+            newX = x - distX;
         }
 
         if (distY > 0) {
-            //DOWN
-            checkY = y + distY;
-        } else if (distY < 0) {
-            //UP
-            checkY = y + distY;
+            newY = y + distY;
         }
 
-        int xDiff = checkX - x;
-        int yDiff = checkY - y;
+        if (distY < 0) {
+            newY = y - distY;
+        }
 
-        boolean conflict = false;
+        if (newX != x) {
 
-        for (int x1 = 0; x1 < xDiff; x1++) {
-            for (int y1 = 0; y1 < yDiff; y1++) {
-                Tile at = currentLevel.tileAt(x1, y1);
+            if (newX < x) {
+                for (int x1 = newX; x1 <= x; x1++) {
+                    if (getCurrentLevel().tileAt(x1, y).getType() == TileType.WALL) {
+                        canMove = false;
+                    }
+                }
+            }
+            else {
+                for (int x1 = x; x1 <= newX; x1++) {
+                    if (getCurrentLevel().tileAt(x1, y).getType() == TileType.WALL) {
+                        canMove = false;
+                    }
+                }
+            }
 
-                if (at.getType() == TileType.WALL) {
-                    conflict = true;
+        }
+        else if (newY != y) {
+            if (newY < y) {
+                for (int y1 = newY; y1 <= x; y1++) {
+                    if (getCurrentLevel().tileAt(x, y1).getType() == TileType.WALL) {
+                        canMove = false;
+                    }
+                }
+            }
+            else {
+                for (int y1 = y; y1 <= newY; y1++) {
+                    if (getCurrentLevel().tileAt(x, y1).getType() == TileType.WALL) {
+                        canMove = false;
+                    }
                 }
             }
         }
 
-        Tile nextTile = currentLevel.tileAt(checkX, checkY);
-
-        if (nextTile != null) {
-            if (nextTile.getType() == TileType.END) {
-                player.setCompleted(true);
-                playerFinished(player);
-            }
-        }
-
-        if (nextTile == null) {
-            return false;
-        } else {
-            return !conflict && nextTile.getType() != TileType.WALL;
-        }
+        return canMove;
     }
 
     public abstract void playerFinished(Player player);

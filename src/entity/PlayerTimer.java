@@ -1,5 +1,4 @@
 package entity;
-
 import javafx.animation.AnimationTimer;
 
 public class PlayerTimer extends AnimationTimer {
