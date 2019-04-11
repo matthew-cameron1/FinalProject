@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MazeGame {
+    
+    private int aspectRatio = 24;
 
     private List<Player> players = new ArrayList<>();
     private List<Level> availableLevels = new ArrayList<>();
@@ -55,14 +57,25 @@ public abstract class MazeGame {
         return currentlyPlaying;
     }
 
-    public boolean newPlayerMove(Player player, int distX, int distY) {
-        int x = player.getX();
-        int y = player.getY();
+    public boolean newPlayerMove(Player player, double distX, double distY) {
+        double x = player.getX();
+        double y = player.getY();
 
-        int futureX = x + (distX * 16);
-        int futureY = y + (distY * 16);
+        double futureX = x + (distX);
+        double futureY = y + (distY);
 
-        Tile next = currentLevel.tileAt(futureX / 16, futureY / 16);
+        double xMod = 0.0;
+        double yMod = 0.0;
+
+        if (distX < 0) {
+            xMod = 16;
+        }
+
+        if (distY < 0) {
+            yMod = 16;
+        }
+
+        Tile next = currentLevel.newTileAt(futureX - xMod, futureY - yMod);
 
         if (next != null) {
             if (next.getType() == TileType.END) {
@@ -72,6 +85,7 @@ public abstract class MazeGame {
         }
 
         if (next == null) {
+            System.out.println("Null tiles");
             return false;
         }
 
@@ -79,13 +93,13 @@ public abstract class MazeGame {
     }
 
     public boolean playerCanMove(Player player, int distX, int distY) {
-        int x = player.getX();
-        int y = player.getY();
+        double x = player.getX();
+        double y = player.getY();
 
         System.out.println("Player coords: (" + x + ", " + y + ")");
 
-        int newX = 0;
-        int newY = 0;
+        double newX = 0;
+        double newY = 0;
 
         boolean canMove = true;
 
@@ -108,14 +122,14 @@ public abstract class MazeGame {
         if (newX != x) {
 
             if (newX < x) {
-                for (int x1 = newX; x1 <= x; x1++) {
+                for (double x1 = newX; x1 <= x; x1++) {
                     if (getCurrentLevel().tileAt(x1, y).getType() == TileType.WALL) {
                         canMove = false;
                     }
                 }
             }
             else {
-                for (int x1 = x; x1 <= newX; x1++) {
+                for (double x1 = x; x1 <= newX; x1++) {
                     if (getCurrentLevel().tileAt(x1, y).getType() == TileType.WALL) {
                         canMove = false;
                     }
@@ -125,14 +139,14 @@ public abstract class MazeGame {
         }
         else if (newY != y) {
             if (newY < y) {
-                for (int y1 = newY; y1 <= x; y1++) {
+                for (double y1 = newY; y1 <= x; y1++) {
                     if (getCurrentLevel().tileAt(x, y1).getType() == TileType.WALL) {
                         canMove = false;
                     }
                 }
             }
             else {
-                for (int y1 = y; y1 <= newY; y1++) {
+                for (double y1 = y; y1 <= newY; y1++) {
                     if (getCurrentLevel().tileAt(x, y1).getType() == TileType.WALL) {
                         canMove = false;
                     }

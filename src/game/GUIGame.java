@@ -22,7 +22,7 @@ import java.io.File;
 
 public class GUIGame extends MazeGame {
     
-    private int aspectRatio = 16;
+    private int aspectRatio = 24;
 
     private Group group;
 
@@ -37,7 +37,7 @@ public class GUIGame extends MazeGame {
 
     public GUIGame() {
         this.group = new Group();
-        this.scene = new GameScene(group, 512, 512, this);
+        this.scene = new GameScene(group, 768, 768, this);
     }
 
     @Override
@@ -57,12 +57,12 @@ public class GUIGame extends MazeGame {
             gameLoop.stop();
             Image background = new Image(getClass().getResourceAsStream("/resources/Buttons and TitleScreen/Title Screen.png"));
             ImageView bg = new ImageView(background);
-            bg.setFitHeight(600);
-            bg.setFitWidth(550);
+            bg.setFitHeight(768);
+            bg.setFitWidth(768);
             group.getChildren().add(bg);
 
             VBox box = new VBox();
-            box.setPrefWidth(512);
+            box.setPrefWidth(768);
             box.setAlignment(Pos.CENTER);
             box.setPadding(new Insets(20));
 
@@ -121,6 +121,8 @@ public class GUIGame extends MazeGame {
                             continue;
                         }
 
+                        pImage.setImage(player.getSpriteForDirection());
+
                         if (pImage.getTranslateX() != player.getX()) {
                             pImage.setTranslateX(player.getX());
                         }
@@ -142,6 +144,7 @@ public class GUIGame extends MazeGame {
         start();
         Player currentlyPlaying = getCurrentlyPlaying();
         currentlyPlaying.getTimer().start();
+        double velocity = currentlyPlaying.getVelocity();
 
         scene.setOnKeyPressed(event -> {
             KeyCode code = event.getCode();
@@ -149,24 +152,31 @@ public class GUIGame extends MazeGame {
             switch (code) {
 
                 case W:
-                    if (!newPlayerMove(currentlyPlaying, 0, -1))
+                    if (!newPlayerMove(currentlyPlaying, 0, -velocity))
                         return;
-                    currentlyPlaying.move(0, -1*16);
+                    currentlyPlaying.setDirection("up");
+                    currentlyPlaying.move(0, -velocity);
                     break;
                 case S:
-                    if (!newPlayerMove(currentlyPlaying, 0, 1))
+                    if (!newPlayerMove(currentlyPlaying, 0, velocity))
                         return;
-                    currentlyPlaying.move(0, 1*16);
+                    currentlyPlaying.setDirection("down");
+
+                    currentlyPlaying.move(0, velocity);
                     break;
                 case D:
-                    if (!newPlayerMove(currentlyPlaying, 1, 0))
+                    if (!newPlayerMove(currentlyPlaying, velocity, 0))
                         return;
-                    currentlyPlaying.move(1*16, 0);
+                    currentlyPlaying.setDirection("right");
+
+                    currentlyPlaying.move(velocity, 0);
                     break;
                 case A:
-                    if (!newPlayerMove(currentlyPlaying, -1, 0))
+                    if (!newPlayerMove(currentlyPlaying, -velocity, 0))
                         return;
-                    currentlyPlaying.move(-1 * 16, 0);
+                    currentlyPlaying.setDirection("left");
+
+                    currentlyPlaying.move(-velocity, 0);
                     break;
             }
         });
@@ -235,7 +245,7 @@ public class GUIGame extends MazeGame {
         rect.setFill(Color.BLUE);
         group.getChildren().add(rect);*/
 
-        Image img = new Image(getClass().getResourceAsStream("/resources/sprites/P1-Right.png"));
+        Image img = new Image(getClass().getResourceAsStream("/resources/sprites/player_right.gif"));
         ImageView view = new ImageView(img);
         view.setTranslateX(player.getX());
         view.setTranslateY(player.getY());

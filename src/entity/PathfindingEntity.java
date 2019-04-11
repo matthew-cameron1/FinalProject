@@ -21,9 +21,4 @@ public class PathfindingEntity extends Entity {
     public void addAllPoints(Point... points) {
 
     }
-
-    @Override
-    public void move(int distX, int distY) {
-
-    }
 }

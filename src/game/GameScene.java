@@ -14,6 +14,8 @@ public class GameScene extends Scene {
 
     public MazeGame game;
     private Group group;
+    
+    private int aspectRatio = 24;
 
     public GameScene(Group root, int width, int height, MazeGame game) {
         super(root, width, height);
@@ -30,14 +32,14 @@ public class GameScene extends Scene {
             } else if (tile.getType() == TileType.PLAYABLE) {
                 img.setImage(new Image("resources/textures/plank-1.png.png"));
             } else {
-                Rectangle rect = new Rectangle(tile.getX() * 16, tile.getY() * 16, 16, 16);
+                Rectangle rect = new Rectangle(tile.getX() * aspectRatio, tile.getY() * aspectRatio, aspectRatio, aspectRatio);
                 rect.setFill(Color.rgb(tile.getColor().getRed(), tile.getColor().getGreen(), tile.getColor().getBlue()));
                 group.getChildren().add(rect);
             }
-            img.setFitWidth(16);
-            img.setFitHeight(16);
-            img.setX(tile.getX() * 16);
-            img.setY(tile.getY() * 16);
+            img.setFitWidth(aspectRatio);
+            img.setFitHeight(aspectRatio);
+            img.setX(tile.getX() * aspectRatio);
+            img.setY(tile.getY() * aspectRatio);
             group.getChildren().add(img);
         }
     }
@@ -47,7 +49,7 @@ public class GameScene extends Scene {
 
         System.out.println(level.getTiles().size());
         for (Tile tile : level.getTiles()) {
-            Rectangle rect = new Rectangle(tile.getX() * 16, tile.getY() * 16, 16, 16);
+            Rectangle rect = new Rectangle(tile.getX() * aspectRatio, tile.getY() * aspectRatio, aspectRatio, aspectRatio);
             rect.setFill(Color.rgb(tile.getColor().getRed(), tile.getColor().getGreen(), tile.getColor().getBlue()));
             group.getChildren().add(rect);
         }

@@ -7,23 +7,32 @@ public class Entity {
     *Private variables for the Entity class, keeping track of position (x,y) and identity
     */
     private String id;
-    private int x, y;
+    private double x, y;
+    private double velocity;
     
     /**
     *Entity constructor 
     *@param id: String, x: int, y: int
     */
-    public Entity(String id, int x, int y) {
+    public Entity(String id, double x, double y) {
         this.id = id;
         this.x = x;
         this.y = y;
+    }
+
+    public double getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(double velocity) {
+        this.velocity = velocity;
     }
 
     /**
     *Changes the x and y coordinates of the entity based on the input values of move
     *@param distX: int, distY: int
     */
-    public void move(int distX, int distY) {
+    public void move(double distX, double distY) {
         setX(getX() + distX);
         setY(getY() + distY);
     }
@@ -38,19 +47,19 @@ public class Entity {
         this.id = id;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 }

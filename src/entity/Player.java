@@ -1,25 +1,67 @@
 package entity;
+
+import javafx.scene.image.Image;
+
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Player extends Entity {
 
     private String boardIcon;
     private boolean completed;
-    
+    private double velocity = 4;
+
+    private List<Image> sprites = Arrays.asList(new Image("/resources/sprites/player_up.gif"),
+            new Image("/resources/sprites/player_down.gif"),
+            new Image("/resources/sprites/player_right.gif"),
+            new Image("/resources/sprites/player_left.gif"));
+
+    private String direction = "right";
+
     private PlayerTimer timer = new PlayerTimer();
     private int levelCount = 1;
-    
+
     private double recentTime;
 
     private Map<String, Double> playerScores = new HashMap<>();
 
-    public Player(String name, String boardIcon, int x, int y) {
+    public Player(String name, String boardIcon, double x, double y) {
         super(name, x, y);
         this.boardIcon = boardIcon;
         this.completed = false;
     }
+
+    public Image getSpriteForDirection() {
+        if (direction.equals("up")) {
+            return sprites.get(0);
+        }
+        else if (direction.equals("down")) {
+            return sprites.get(1);
+        }
+        else if (direction.equals("right")) {
+            return sprites.get(2);
+        }
+        else {
+            return sprites.get(3);
+        }
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    @Override
+    public double getVelocity() {
+        return velocity;
+    }
+
     public String getBoardIcon() {
         return boardIcon;
     }
@@ -36,31 +78,31 @@ public class Player extends Entity {
         this.completed = completed;
         timer.stop();
         DecimalFormat df2 = new DecimalFormat(".##");
-        addScore("level" + levelCount,  Double.valueOf(df2.format(timer.getTime() / 60.0)));
-        this.setRecentTime( Double.valueOf(df2.format(timer.getTime() / 60.0)));
+        addScore("level" + levelCount, Double.valueOf(df2.format(timer.getTime() / 60.0)));
+        this.setRecentTime(Double.valueOf(df2.format(timer.getTime() / 60.0)));
         levelCount++;
     }
-    
+
     public PlayerTimer getTimer() {
         return timer;
     }
-    
-    public void setTimer(PlayerTimer timer){
+
+    public void setTimer(PlayerTimer timer) {
         this.timer = timer;
     }
-    
-    public double getRecentTime(){
+
+    public double getRecentTime() {
         return recentTime;
     }
-    
-    public void setRecentTime(double recentTime){
+
+    public void setRecentTime(double recentTime) {
         this.recentTime = recentTime;
     }
-    
+
     public Map<String, Double> getPlayerScores() {
         return playerScores;
     }
-    
+
     public void addScore(String levelName, double recentTime) {
         this.playerScores.put(levelName, recentTime);
     }
@@ -68,13 +110,13 @@ public class Player extends Entity {
     public Double getFinalScore() {
         double sum = 0.0;
         for (double d : playerScores.values()) {
-            sum+=d;
+            sum += d;
         }
 
         DecimalFormat df2 = new DecimalFormat(".##");
         return Double.valueOf(df2.format(sum));
     }
-    
+
     public String getBestLevel() {
         double best = 1000000.0;
         String levelName = "";
@@ -86,12 +128,6 @@ public class Player extends Entity {
             }
         }
         return levelName;
-    }
-
-    @Override
-    public void move(int distX, int distY) {
-        setX(getX() + (distX));
-        setY(getY() + (distY));
     }
 
     public double getTimeForLevel(String level) {

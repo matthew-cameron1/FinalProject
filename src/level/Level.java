@@ -1,5 +1,6 @@
 package level;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,11 +48,26 @@ public class Level {
         this.end = end;
     }
 
-    public Tile tileAt(int x, int y) {
+    public Tile newTileAt(double x, double y) {
+        Rectangle2D.Double checkObj = new Rectangle2D.Double(x, y, 24, 24);
+        Tile match = null;
+        for (Tile tile : tiles) {
+            int minX = tile.getX()*24;
+            int minY = tile.getY()*24;
+
+            Rectangle2D.Double tileBounds = new Rectangle2D.Double(minX, minY, 25, 25);
+            if (tileBounds.intersects(checkObj) || tileBounds.contains(checkObj.getX(), checkObj.getY())) {
+                match = tile;
+            }
+        }
+        return match;
+    }
+
+    public Tile tileAt(double x, double y) {
         Tile match = null;
         for (Tile tile : tiles) {
 
-            if (tile.getX() == x && tile.getY() == y) {
+            if (tile.getX() == (int) x && tile.getY() == (int) y) {
                 match = tile;
             }
         }
