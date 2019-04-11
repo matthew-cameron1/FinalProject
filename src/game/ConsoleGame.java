@@ -44,7 +44,11 @@ public class ConsoleGame extends MazeGame {
     @Override
     public void display() {
 
-        int lastY = getCurrentLevel().getTiles().get(0).getY();
+        int lastY = 0;
+        int x = (int) getCurrentlyPlaying().getX();
+        int py = (int) getCurrentlyPlaying().getY();
+
+        System.out.println("PLAYER: " + x + " " + py);
 
         for (Tile tile : getCurrentLevel().getTiles()) {
             int y = tile.getY();
@@ -62,14 +66,13 @@ public class ConsoleGame extends MazeGame {
             }
 
             if (getCurrentlyPlaying() != null) {
-                if (getCurrentlyPlaying().getX() == tile.getX() && getCurrentlyPlaying().getY() == tile.getY()) {
+                if (x == tile.getX() && py == tile.getY()) {
                     toPrint = getCurrentlyPlaying().getBoardIcon();
                 }
             }
 
-            if (y > lastY) {
+            if (tile.getX() == 31) {
                 toPrint = "\n" + toPrint;
-                lastY = y;
             }
 
             System.out.print(toPrint);
@@ -78,7 +81,7 @@ public class ConsoleGame extends MazeGame {
 
     @Override
     public void start() {
-        File levelDir = new File("FinalProject/resources/levels/level1.png");
+        File levelDir = new File("FinalProject/src/resources/levels/console/level1.png");
         System.out.println(levelDir.getAbsolutePath());
         LevelLoader loader = new LevelLoader(levelDir);
         List<Level> levelsLoaded = loader.load();
@@ -129,6 +132,8 @@ public class ConsoleGame extends MazeGame {
         setCurrentlyPlaying(playing);
         setCurrentLevel(current);
 
+        System.out.println(playing.getX() + " " + playing.getY());
+
 
         display();
 
@@ -159,6 +164,7 @@ public class ConsoleGame extends MazeGame {
                 System.out.println("There seems to be a wall " + amount + " spaces " + direction);
                 System.out.println("Try again: ");
             } else {
+                System.out.println("Moving to: " + x + " and " + y);
                 getCurrentlyPlaying().move(x, y);
                 display();
 

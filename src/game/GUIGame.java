@@ -19,6 +19,8 @@ import level.Level;
 import level.LevelLoader;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 public class GUIGame extends MazeGame {
     
@@ -32,6 +34,11 @@ public class GUIGame extends MazeGame {
 
     private boolean gameWillContinue = true;
     private boolean isSwitchScreen = false;
+
+    private List<Image> sprites = Arrays.asList(new Image("/resources/sprites/player_up.gif"),
+            new Image("/resources/sprites/player_down.gif"),
+            new Image("/resources/sprites/player_right.gif"),
+            new Image("/resources/sprites/player_left.gif"));
 
     private GameScene scene;
 
@@ -121,7 +128,7 @@ public class GUIGame extends MazeGame {
                             continue;
                         }
 
-                        pImage.setImage(player.getSpriteForDirection());
+                        pImage.setImage(getSpriteForDirection(player.getDirection()));
 
                         if (pImage.getTranslateX() != player.getX()) {
                             pImage.setTranslateX(player.getX());
@@ -132,6 +139,21 @@ public class GUIGame extends MazeGame {
                     }
                 }
             }
+        }
+    }
+
+    public Image getSpriteForDirection(String direction) {
+        if (direction.equals("up")) {
+            return sprites.get(0);
+        }
+        else if (direction.equals("down")) {
+            return sprites.get(1);
+        }
+        else if (direction.equals("right")) {
+            return sprites.get(2);
+        }
+        else {
+            return sprites.get(3);
         }
     }
 
@@ -181,6 +203,8 @@ public class GUIGame extends MazeGame {
             }
         });
     }
+
+
 
     @Override
     public void playerFinished(Player player) {

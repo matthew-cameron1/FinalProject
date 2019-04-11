@@ -1,11 +1,7 @@
 package entity;
 
-import javafx.scene.image.Image;
-
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Player extends Entity {
@@ -13,11 +9,6 @@ public class Player extends Entity {
     private String boardIcon;
     private boolean completed;
     private double velocity = 4;
-
-    private List<Image> sprites = Arrays.asList(new Image("/resources/sprites/player_up.gif"),
-            new Image("/resources/sprites/player_down.gif"),
-            new Image("/resources/sprites/player_right.gif"),
-            new Image("/resources/sprites/player_left.gif"));
 
     private String direction = "right";
 
@@ -32,21 +23,6 @@ public class Player extends Entity {
         super(name, x, y);
         this.boardIcon = boardIcon;
         this.completed = false;
-    }
-
-    public Image getSpriteForDirection() {
-        if (direction.equals("up")) {
-            return sprites.get(0);
-        }
-        else if (direction.equals("down")) {
-            return sprites.get(1);
-        }
-        else if (direction.equals("right")) {
-            return sprites.get(2);
-        }
-        else {
-            return sprites.get(3);
-        }
     }
 
     public String getDirection() {
